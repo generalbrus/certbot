@@ -568,6 +568,9 @@ def _generate_failed_chall_msg(failed_achalls):
     for achall in failed_achalls:
         msg.append("\n\nDomain: %s\nType:   %s\nDetail: %s" % (
             achall.domain, typ, achall.error.detail))
+        if isinstance(achall.chall, challenges.HTTP01):
+            msg.append("\nChallenge URI: %s\nExpected response: %s" % (
+              achall.chall.uri(achall.domain), achall.validation(achall.account_key)))
 
     if typ in _ERROR_HELP:
         msg.append("\n\n")
